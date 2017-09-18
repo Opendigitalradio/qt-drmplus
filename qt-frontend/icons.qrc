@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/speaker.png</file>
+        <file>icons/Minimize.png</file>
+        <file>icons/Close.png</file>
+        <file>icons/Settings-26.png</file>
+        <file>icons/CSConstellation.png</file>
+        <file>icons/CSSpectrumInpSpectr.png</file>
+        <file>icons/CSSpectrumSNR.png</file>
+        <file>icons/usb-connector.png</file>
+        <file>icons/frev.png</file>
+        <file>icons/ffwd.png</file>
+        <file>icons/prev.png</file>
+        <file>icons/next.png</file>
+        <file>icons/info.png</file>
+        <file>icons/CSSpectrumShiftedPSD.png</file>
+        <file>icons/repeat.png</file>
+        <file>icons/question.svg</file>
+        <file>icons/MainIcon.svg</file>
+        <file>icons/Speaker-48.png</file>
+    </qresource>
+</RCC>

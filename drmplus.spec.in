@@ -1,0 +1,61 @@
+Name:           libdrmplus
+Version:        @VERSION@
+Release:        0
+URL:            https://github.com/Opendigitalradio/qt-drmplus
+Group:          System/Libraries
+License:        LGPL
+Summary:        DRM Mode E (DRM+)
+Source:         https://github.com/Opendigitalradio/qt-drmplus
+Autoreqprov:    on
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+
+%description
+Digital Radio Mondiale Plus (DRM Mode E, so-called DRM+) Demodulation/Decoding library.
+(ETSI ES 201 980)
+
+https://portal.etsi.org/webapp/workprogram/Report_WorkItem.asp?WKI_ID=52849
+
+%package devel
+Group:          System/Libraries
+Summary:        High Efficiency Advanced Audio Codec v2
+Requires:       %{name} = %{version} glibc-devel
+
+%description devel
+Digital Radio Mondiale Plus (DRM Mode E, so-called DRM+) Demodulation/Decoding library.
+(ETSI ES 201 980)
+
+https://portal.etsi.org/webapp/workprogram/Report_WorkItem.asp?WKI_ID=52849
+
+%prep
+%setup -q
+
+%build
+%configure
+make %{?jobs:-j %jobs}
+#make distcheck
+
+%install
+%makeinstall
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%post
+%run_ldconfig
+
+%postun
+%run_ldconfig
+
+%files
+%defattr (-, root, root)
+%doc AUTHORS ChangeLog COPYING NEWS README TODO
+%{_bindir}/*
+%{_libdir}/*.so.*
+
+%files devel
+%defattr (-, root, root)
+%{_includedir}/drmplus.h
+%{_includedir}/fac.h
+%{_includedir}/sdc.h
+%{_libdir}/*.so
+%{_libdir}/*.*a

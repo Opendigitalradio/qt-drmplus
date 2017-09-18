@@ -1,0 +1,8 @@
+drmplusOpen
+drmplusGetConfiguration
+drmplusSetConfiguration
+drmplusSetCallback
+drmplusAddSamplesShort
+drmplusAddSamplesDouble
+drmplusResetSync
+drmplusClose

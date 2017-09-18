@@ -1,0 +1,19 @@
+libdrmplus and Qt-DRM+ application
+Copyright 2017 OpenDigitalRadio
+
+The libdrmplus is available under two licenses:
+the GNU General Public License version 2 (GPLv2)
+and the GNU Lesser General Public License version 2.1 (LGPLv2.1)
+
+See the LICENSE-GPLv2.txt file for the GNU General Public License version 2.
+
+See the LICENSE-LGPLv2.1.txt file for the GNU Lesser General Public License
+version 2.1.
+
+
+The Qt-DRM+ application is licensed under
+the GNU General Public License version 2 (GPLv2)
+
+
+If FAAD2 library is embedded into libdrmplus, then only GPLv2
+is avaliable, due FAAD2 is GPLv2.

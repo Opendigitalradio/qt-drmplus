@@ -1,0 +1,80 @@
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+*.wav
+*.pcm
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+*.o.d
+*.b#*
+*.s#*
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+*.log
+drmplusdemod
+
+
+# QT-related
+/build-qt-*
+*.pro.*
+
+
+# Debug files
+*.dSYM/
+/build/
+.dep/*
+.settings
+.project
+.cproject
+samples
+CMakeCache.txt
+Makefile
+Makefile.in
+cmake_install.cmake
+CMakeFiles
+*.orig
+
+
+autom4te.cache
+compile
+config.*
+configure
+depcomp
+*.pc
+*.spec
+*/.deps/*
+install-sh
+libtool
+ltmain.sh
+m4
+missing
+.autotools
+*.m4
+*-new
+/.git/
+*/.libs/*
+stamp-h1
+*.raw
+*.wav

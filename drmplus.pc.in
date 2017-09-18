@@ -1,0 +1,15 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@/drmplus
+toolsdir=${exec_prefix}/bin
+cppflags=@DRMPLUS_CPPFLAGS@
+cflags_only=@DRMPLUS_CFLAGS@
+
+
+Name: drmplus
+Description: DRM+ reception library
+Requires: @DRMPLUS_REQUIRES@
+Version: @VERSION@
+Libs: @DRMPLUS_LIBS@
+Cflags: -I${includedir} @DRMPLUS_CFLAGS@
