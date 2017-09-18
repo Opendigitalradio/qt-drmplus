@@ -2,13 +2,19 @@
 
 # Known bugs:
 - Demodulating QAM-16 is not implemented
-- Decoding only AAC format (witn SBR and PS).
+- Decoding only AAC format (with SBR/PS)
+- Command-line frontend supports only file (or stdin) input
 
-Dependencies:
+Dependencies for libdrmplus:
 - fftw3
 - faad2 (drm enabled)
 
-# To compile library do:
+Dependencies for Qt-DRM+:
+- Qt-5.9
+- librtlsdr
+- libsamplerate
+
+# To compile library and command-line fromtend, do next steps:
 ```
 ./autogen.sh
 ./configure
@@ -16,7 +22,7 @@ make
 sudo make install
 ```
 
-# To compile Qt-DRM+ frontend:
+# To compile graphical user-interface Qt-DRM+ frontend, do next:
 ```
 cd qt-frontend
 qt-creator qt-drmplus.pro
