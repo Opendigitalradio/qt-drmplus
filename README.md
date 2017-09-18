@@ -29,4 +29,4 @@ qt-creator qt-drmplus.pro
 ```
 
 ## Screensot of QT-DRM+ receiver application with additional graphs enabled:
-[https://github.com/Opendigitalradio/qt-drmplus/blob/master/docs/qt-drmplus_screenshot.png|alt=QT-DRM+]
+[[https://github.com/Opendigitalradio/qt-drmplus/blob/master/docs/qt-drmplus_screenshot.png|alt=QT-DRM+]]
