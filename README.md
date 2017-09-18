@@ -14,7 +14,7 @@
 - librtlsdr
 - libsamplerate
 
-## To compile library and command-line fromtend, do next steps:
+## To compile library and command-line frontend, do next steps:
 ```
 ./autogen.sh
 ./configure
