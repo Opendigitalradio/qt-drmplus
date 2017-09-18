@@ -28,5 +28,5 @@ cd qt-frontend
 qt-creator qt-drmplus.pro
 ```
 
-## Screensot of QT-DRM+ receiver application with additional graphs enabled:
+## Screenshot of QT-DRM+ receiver application with additional graphs enabled:
 ![QT-DRM+](https://github.com/Opendigitalradio/qt-drmplus/blob/master/docs/qt-drmplus_screenshot.png)
