@@ -18,6 +18,7 @@
 
 
 #include <QDebug>
+#include <cmath>
 
 #include "TechInfoDialog.h"
 #include "ui_TechInfoDialog.h"
