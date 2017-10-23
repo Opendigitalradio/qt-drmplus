@@ -436,7 +436,7 @@ void DRMWorker::process()
             int num = p->inputDevice->getSamples(IQ_data2, 480);
             if(num != 480) {
                 p->inputDevMutex.unlock();
-                qDebug("received small amount of data: %d/%d!", num, 480);
+                if(num) qDebug("received small amount of data: %d/%d!", num, 480);
                 usleep (100);
                 continue;
             }

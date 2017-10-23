@@ -353,7 +353,7 @@ void	InOutDialog::selectInDevice (QString s)
        try {
           p->inputDevice	= new rtlsdrHandler (&p->settings, ui->frame_output);
           emit showFreqButtons ();
-          p->selectFrequency();
+          QTimer::singleShot(200, p, SLOT(selectFrequency()));
        }
        catch (int e) {
           QMessageBox::warning (this, tr ("Warning"),

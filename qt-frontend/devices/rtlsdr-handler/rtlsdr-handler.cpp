@@ -26,9 +26,12 @@
  */
 
 #include	<QThread>
+#include	<QDebug>
 #include	"rtlsdr-handler.h"
 #include    "rtl-dongleselect.h"
 #include	"rtl-sdr.h"
+
+#include	"speex_resampler.h"
 
 #ifdef	__MINGW32__
 #define	GETPROCADDRESS	GetProcAddress
@@ -92,7 +95,10 @@ int	k;
     this	-> myFrame	= new QFrame (fr);
 	setupUi (this -> myFrame);
 	this	-> myFrame	-> show ();
-    inputRate		= 300000;
+    //inputRate		= 300000;
+    //inputRate		= 192000;
+    //inputRate		= 192000*3/2;
+    inputRate		= 288000;
 	libraryLoaded		= false;
 	open			= false;
 	_I_Buffer		= NULL;
@@ -202,7 +208,7 @@ int	k;
 
 	rtlsdr_set_tuner_gain_mode (device, 1);
 
-	_I_Buffer		= new RingBuffer<uint8_t>(1024 * 1024);
+    _I_Buffer		= new RingBuffer<uint8_t>(1024 * 1024);
 
 	theGain		= gains [gainsCount / 2];	// default
 //
@@ -237,6 +243,20 @@ int	k;
 	rtlsdr_set_tuner_gain	(device, theGain);
 	set_ppmCorrection	(ppm_correction -> value ());
 	set_KhzOffset		(KhzOffset -> value ());
+
+    int err = 0;
+//    converter = speex_resampler_init_frac(2,
+//                                          3, 2, 288000, 192000,
+//                                          7, &err);
+    converter = speex_resampler_init(2, inputRate, 192000, 6, &err);
+
+    if(err) {
+        qDebug() << __FUNCTION__ << "resample creation fail: " << speex_resampler_strerror(err);
+        qDeleteAll(myFrame->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
+        myFrame->deleteLater();
+        throw (24);
+    }
+
 //
 //	and attach the buttons/sliders to the actions
 	connect (combo_gain, SIGNAL (activated (const QString &)),
@@ -299,6 +319,10 @@ int	k;
 	if (gains != NULL)
 	   delete[] gains;
     //delete	myFrame;
+    if(converter != NULL) {
+        speex_resampler_destroy(converter);
+        converter = NULL;
+    }
     qDeleteAll(myFrame->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
     myFrame->deleteLater();
 }
@@ -365,13 +389,42 @@ void	rtlsdrHandler::set_KhzOffset	(int32_t o) {
 //	uint8_t to DSPCOMPLEX *
 int32_t	rtlsdrHandler::getSamples (DSPCOMPLEX *V, int32_t size) { 
 int32_t	amount, i;
-uint8_t	*tempBuffer = (uint8_t *)alloca (2 * size * sizeof (uint8_t));
+
+if(_I_Buffer->GetRingBufferReadAvailable() < 2 * size * 3/2)
+    return 0;
+
+
+uint8_t	*tempBuffer = (uint8_t *)alloca (2 * size * 3/2 * sizeof (uint8_t));
+amount = _I_Buffer	-> getDataFromBuffer (tempBuffer, 2 * size * 3/2);
 //
-	amount = _I_Buffer	-> getDataFromBuffer (tempBuffer, 2 * size);
-	for (i = 0; i < amount / 2; i ++)
-	    V [i] = DSPCOMPLEX ((float (tempBuffer [2 * i] - 128)) / 128.0,
-	                        (float (tempBuffer [2 * i + 1] - 128)) / 128.0);
-	return amount / 2;
+
+    //qDebug() << __FUNCTION__ << " get:"<<size<<", amount:"<<amount;
+
+    float Vin[480* 3/2 * 2];
+    float Vout[480* 2 + 2];
+
+    for (i = 0; i < amount; i ++)
+        Vin [i] = (float (tempBuffer [i] - 128)) / 128.0;
+
+
+spx_uint32_t amount_conv = size + 1;
+spx_uint32_t in_len = amount / 2;
+
+   speex_resampler_process_interleaved_float(converter, Vin,
+                                               &in_len,
+                                               Vout,
+                                               &amount_conv);
+
+
+   //qDebug() << __FUNCTION__ << " conv:"<< amount_conv;
+
+   for (i = 0; i < amount_conv; i ++) {
+       V[i] = DSPCOMPLEX(Vout[i*2], Vout[i*2+1]);
+   }
+
+
+    //return amount / 2;
+    return amount_conv;
 }
 
 int32_t	rtlsdrHandler::Samples	(void) {

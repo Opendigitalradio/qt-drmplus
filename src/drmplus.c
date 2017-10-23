@@ -351,9 +351,10 @@ int drmplusAddSamplesDouble(drmplusHandle hp, double *inputBuffer, unsigned int 
 				p->cb_siginfo(p->cb_siginfo_priv, &p->siginfo, SIGINFO_CALLBACK, NULL);
 		}
 	} else {
-		p->siginfo.sync_state=SYNC_STATE_NULL;
+		if(p->siginfo.sync_state > SYNC_STATE_NULL+2)
+			INFOLOG("TIME SYNC FAIL!");
 		p->cfe_maxenergy_cnt=0;
-		INFOLOG("TIME SYNC FAIL!");
+		p->siginfo.sync_state=SYNC_STATE_NULL;
 		if(p->cb_siginfo && p->siginfo.sync_state != SYNC_STATE_NULL)
 			p->cb_siginfo(p->cb_siginfo_priv, &p->siginfo, SIGINFO_CALLBACK, NULL);
 	}

@@ -33,6 +33,7 @@
 #include	"drm-constants.h"
 #include	"virtual-input.h"
 #include	"ringbuffer.h"
+#include	"speex_resampler.h"
 #include	"ui_rtlsdr-widget.h"
 class	dll_driver;
 //
@@ -98,6 +99,8 @@ private:
 	bool		open;
 	int		*gains;
 	int16_t		gainsCount;
+    SpeexResamplerState    *converter;
+
 //	here we need to load functions from the dll
 	bool		load_rtlFunctions	(void);
 	pfnrtlsdr_open	rtlsdr_open;

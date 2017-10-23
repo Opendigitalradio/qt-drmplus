@@ -42,7 +42,8 @@ SOURCES += \
     devices/virtual-input.cpp \
     devices/rawfiles/rawfiles.cpp \
     devices/wavfiles/wavfiles.cpp \
-    TechInfoDialog.cpp
+    TechInfoDialog.cpp \
+    devices/resample.c
 
 HEADERS += \
     mainwindow.h \
@@ -59,7 +60,8 @@ HEADERS += \
     devices/virtual-input.h \
     devices/rawfiles/rawfiles.h \
     devices/wavfiles/wavfiles.h \
-    TechInfoDialog.h
+    TechInfoDialog.h \
+    devices/speex_resampler.h
 
 
 
