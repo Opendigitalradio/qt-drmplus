@@ -277,8 +277,16 @@ int drmplusResetSync(drmplusHandle hp, uint32_t flags)
     }
 
     if(flags == 0) {
-        memset(&p->mpx_desc, 0x00, sizeof(mpx_desc_t));
-        memset(p->services, 0x00, sizeof(srv_data_t)*4);
+        //can't clear fully mpx_desc due there is callbacks saved
+        memset(&p->mpx_desc.info, 0x00, sizeof(mpx_info_t));
+        p->mpx_desc.sdc_num=0;
+        memset(p->mpx_desc.audio_last_frame, 0x00, 4*sizeof(int16_t)*960*2*2); //aac_samples x num_channels x sbr_multiplicator
+        memset(p->mpx_desc.channels_flags, 0x00, 4*sizeof(int32_t));
+        memset(p->mpx_desc.aac_sample_rate, 0x00, 4*sizeof(int32_t));
+
+        memset(&p->services, 0x00, sizeof(mpx_info_t));
+
+        //memset(p->services, 0x00, sizeof(srv_data_t)*4);
     }
 
 }

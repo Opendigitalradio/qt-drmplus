@@ -3,8 +3,7 @@
 
 AC_INIT([libdrmplus],[1.0.1],[Sergiy <piratfm@gmail.com>])
 #AM_INIT_AUTOMAKE([dist-bzip2])
-AM_INIT_AUTOMAKE
-
+AM_INIT_AUTOMAKE([tar-ustar foreign])
 AM_CONFIG_HEADER(config.h)
 AC_CONFIG_MACRO_DIR([m4])
 # Checks for programs.

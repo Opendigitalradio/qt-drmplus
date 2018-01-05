@@ -34,6 +34,7 @@
 *.hex
 *.log
 drmplusdemod
+drmplusgraph
 
 
 # QT-related

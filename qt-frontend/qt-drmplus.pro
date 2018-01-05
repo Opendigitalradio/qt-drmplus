@@ -81,7 +81,6 @@ INCLUDEPATH    += output
 INCLUDEPATH    += ../include
 
 #static lib
-LIBS            += ../src/.libs/libdrmplus.a -lfftw3 -lm
 
 unix {
 #INCLUDEPATH    += /usr/local/include
@@ -98,6 +97,8 @@ CONFIG          += dabstick
 #CONFIG          += sdrplay
 #CONFIG          += rtl_tcp
 #CONFIG          += airspy
+
+CONFIG          += embed_libdrmplus
 }
 
 # an attempt to have it run under W32
@@ -141,6 +142,33 @@ DISTFILES += \
 RESOURCES += \
     icons.qrc
 
+
+
+
+#	libraries
+embed_libdrmplus {
+        SOURCES		+= ../src/audiotext.c \
+                           ../src/drmplus.c \
+                           ../src/midiviterbi.c \
+                           ../src/parser_fac.c \
+                           ../src/parser_msc.c \
+                           ../src/parser_sdc.c \
+                           ../src/parser_str.c \
+                           ../src/rom_tables.c \
+                           ../src/sig_proc.c \
+                           ../src/sig_sync.c \
+                           ../src/utils.c
+        INCLUDEPATH	+= ../src/
+        HEADERS += \
+                           ../src/audiotext.h    \
+                           ../src/drmplus_internal.h \
+                           ../src/midiviterbi.h
+        LIBS            += -lfftw3 -lm
+
+} else {
+        LIBS            += ../src/.libs/libdrmplus.a -lfftw3 -lm
+
+}
 
 
 #	devices
