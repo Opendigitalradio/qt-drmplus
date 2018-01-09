@@ -175,7 +175,8 @@ int32_t drm_fine_time_sync(fftw_complex * frame, int prev_offset){
 
 	int offsetadd = (prev_offset < 8) ? 0 : -8;
 		offsetadd = (prev_offset < 0) ? 1 : offsetadd;
-	int offsetsub = (prev_offset < 0) ? -480 : -8;
+    //int offsetsub = (prev_offset < 0) ? -480 : -8;
+        int offsetsub = (prev_offset < 0) ? -432 : -8;
 //	printf("lookup: %d...%d\n", prev_offset+offsetadd, prev_offset-offsetsub);
 	for (i=prev_offset+offsetadd; i<prev_offset-offsetsub; i++)
 	{
@@ -293,7 +294,7 @@ int drm_coarse_freq_sync_4symbols(drmplus_priv_t *p, double *energy)
 		}
 
 		p->cfe_freq_last = p->cfe_maxenergy_freq[0] - (432/2 - 106);
-		if(p->siginfo.dc_freq_coarse + p->cfe_freq_last >= -110 && p->siginfo.dc_freq_coarse + p->cfe_freq_last < (432-106)) {
+        if(p->siginfo.dc_freq_coarse + p->cfe_freq_last > -110 && p->siginfo.dc_freq_coarse + p->cfe_freq_last < (432/2-106)) {
 			p->siginfo.dc_freq_coarse += p->cfe_freq_last;
 			fprintf(stderr, "new IFO: %d (last:%d)\n", p->siginfo.dc_freq_coarse, p->cfe_freq_last);
 			p->cfe_freq_ok=1;

@@ -20,6 +20,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
+#include <assert.h>
 
 #include "drmplus_internal.h"
 
@@ -543,7 +544,7 @@ int drmplusAddSamplesDouble(drmplusHandle hp, double *inputBuffer, unsigned int 
 	if(p->siginfo.spectrum_inverted > 0 && p->cfg.ifoEstimationType == IFO_EST_4SYMBOLS) {
 		fftw_complex tmp;
 		for (i=0;i<106;i++) {
-			tmp[0] = p->symbol[p->siginfo.dc_freq_coarse + 110+i][0];
+            tmp[0] = p->symbol[p->siginfo.dc_freq_coarse + 110+i][0];
 			tmp[1] = p->symbol[p->siginfo.dc_freq_coarse + 110+i][1];
 			p->symbol[p->siginfo.dc_freq_coarse + 110+i][1] = p->symbol[p->siginfo.dc_freq_coarse + 322-i][0];
 			p->symbol[p->siginfo.dc_freq_coarse + 110+i][0] = p->symbol[p->siginfo.dc_freq_coarse + 322-i][1];
@@ -696,6 +697,7 @@ int drmplusAddSamplesDouble(drmplusHandle hp, double *inputBuffer, unsigned int 
 							fprintf(stderr, "Trying spectrum inversion...\n");
 							p->siginfo.spectrum_inverted = !p->siginfo.spectrum_inverted;
 							p->siginfo.fac_errors=0;
+                            drmplusResetSync(p, 0);
 						}
 
 						goto away_10;
@@ -707,6 +709,7 @@ int drmplusAddSamplesDouble(drmplusHandle hp, double *inputBuffer, unsigned int 
 							p->siginfo.sync_state=SYNC_STATE_NULL; // FIXME: too hard reset?
 							p->frame_num = -1;
 							p->siginfo.fac_errors=0;
+                            drmplusResetSync(p, 0);
 							goto away_10;
 						}
 #else
