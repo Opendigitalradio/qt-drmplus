@@ -45,7 +45,7 @@ void drm_get_linear_phase_regr(fftw_complex * symbols, uint8_t symbol_id, double
 			double error = val1 - val2;
 			/* this is due phase error can be larger than 2*PI from first to last carrier
 			 * TODO: Maybe it's not needed in real life */
-			while (abs(error - prev_value) > M_PI) {
+			while (fabs(error - prev_value) > M_PI) {
 				if(error < prev_value) error+=2*M_PI;
 				else error-=2*M_PI;
 			}
@@ -209,16 +209,33 @@ void drm_equalize_feed_pilots_lin_int(fftw_complex * symbols, uint8_t symbol_id,
 
 				int j;
 				for(j=0;j<cmp_num;j++) {
-					H_pilots[i-j][0] = (H_pilots[i-j][0] + H_pilots[i][0] - j*pil_diff[0])/2;
-					H_pilots[i-j][1] = (H_pilots[i-j][1] + H_pilots[i][1] - j*pil_diff[1])/2;
+					if(!use_mem) {
+						H_pilots[i-j][0] = (q31_t)H_pilots[i][0] - j*pil_step[0];
+						H_pilots[i-j][1] = (q31_t)H_pilots[i][1] - j*pil_step[1];
+					} else {
+						H_pilots[i-j][0] = ((q31_t)H_pilots[i-j][0] + H_pilots[i][0] - j*pil_step[0])/2;
+						H_pilots[i-j][1] = ((q31_t)H_pilots[i-j][1] + H_pilots[i][1] - j*pil_step[1])/2;
+					}
 				}
+
+				if(pil_id==13 || (pil_id==12 && phases[symbol_id][pil_id+1] == 32767)) {
+					//enchance tail...
+					cmp_num = Ncarr - i;
+					int j;
+					for(j=0;j<cmp_num;j++) {
+						if(!use_mem) {
+							H_pilots[i+j][0] = (q31_t)H_pilots[i][0] + j*pil_step[0];
+							H_pilots[i+j][1] = (q31_t)H_pilots[i][1] + j*pil_step[1];
+						} else {
+							H_pilots[i+j][0] = ((q31_t)H_pilots[i+j][0] + H_pilots[i][0] + j*pil_step[0])/2;
+						H_pilots[i+j][1] = ((q31_t)H_pilots[i+j][1] + H_pilots[i][1] + j*pil_step[1])/2;
+						}
+					}
+				}
+
 			}
 
-			if(pil_id==13 || (pil_id==12 && phases[symbol_id][pil_id+1] == 32767)) {
-				//TODO: enchance tail...
-			}
 		}
-
 		pil_id++;
 	}
 }
