@@ -402,7 +402,7 @@ void drm_decode_qam4(fftw_complex z, int8_t *r0, int8_t *r1)
 	q_dev=abs(fmod(abs(z[1])-a,a))*127;
 
 	*r0 = z[0] < 0 ? 127-i_dev : -127+i_dev;
-	*r1 = z[1] < 0 ? 127-i_dev : -127+q_dev;
+	*r1 = z[1] < 0 ? 127-q_dev : -127+q_dev;
 }
 
 
