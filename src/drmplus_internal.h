@@ -32,6 +32,13 @@
 #include "fac.h"
 #include "audiotext.h"
 
+
+#ifndef q31_t
+#define q31_t int32_t
+#define q15_t int16_t
+#define q8_t int8_t
+#endif
+
 typedef int8_t iq_val[2];
 
 typedef struct mult_desc_s {
