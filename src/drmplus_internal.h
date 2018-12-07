@@ -32,6 +32,7 @@
 #include "fac.h"
 #include "audiotext.h"
 
+#define Ncarr 213
 
 #ifndef q31_t
 #define q31_t int32_t

@@ -210,11 +210,11 @@ void drm_equalize_feed_pilots_lin_int(fftw_complex * symbols, uint8_t symbol_id,
 				int j;
 				for(j=0;j<cmp_num;j++) {
 					if(!use_mem) {
-						H_pilots[i-j][0] = (q31_t)H_pilots[i][0] - j*pil_step[0];
-						H_pilots[i-j][1] = (q31_t)H_pilots[i][1] - j*pil_step[1];
+						H_pilots[i-j][0] = (q31_t)H_pilots[i][0] - j*pil_diff[0];
+						H_pilots[i-j][1] = (q31_t)H_pilots[i][1] - j*pil_diff[1];
 					} else {
-						H_pilots[i-j][0] = ((q31_t)H_pilots[i-j][0] + H_pilots[i][0] - j*pil_step[0])/2;
-						H_pilots[i-j][1] = ((q31_t)H_pilots[i-j][1] + H_pilots[i][1] - j*pil_step[1])/2;
+						H_pilots[i-j][0] = ((q31_t)H_pilots[i-j][0] + H_pilots[i][0] - j*pil_diff[0])/2;
+						H_pilots[i-j][1] = ((q31_t)H_pilots[i-j][1] + H_pilots[i][1] - j*pil_diff[1])/2;
 					}
 				}
 
@@ -224,11 +224,11 @@ void drm_equalize_feed_pilots_lin_int(fftw_complex * symbols, uint8_t symbol_id,
 					int j;
 					for(j=0;j<cmp_num;j++) {
 						if(!use_mem) {
-							H_pilots[i+j][0] = (q31_t)H_pilots[i][0] + j*pil_step[0];
-							H_pilots[i+j][1] = (q31_t)H_pilots[i][1] + j*pil_step[1];
+							H_pilots[i+j][0] = (q31_t)H_pilots[i][0] + j*pil_diff[0];
+							H_pilots[i+j][1] = (q31_t)H_pilots[i][1] + j*pil_diff[1];
 						} else {
-							H_pilots[i+j][0] = ((q31_t)H_pilots[i+j][0] + H_pilots[i][0] + j*pil_step[0])/2;
-						H_pilots[i+j][1] = ((q31_t)H_pilots[i+j][1] + H_pilots[i][1] + j*pil_step[1])/2;
+							H_pilots[i+j][0] = ((q31_t)H_pilots[i+j][0] + H_pilots[i][0] + j*pil_diff[0])/2;
+						H_pilots[i+j][1] = ((q31_t)H_pilots[i+j][1] + H_pilots[i][1] + j*pil_diff[1])/2;
 						}
 					}
 				}
